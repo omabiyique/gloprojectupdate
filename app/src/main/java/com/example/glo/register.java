@@ -2,7 +2,9 @@ package com.example.glo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
@@ -49,6 +51,7 @@ public class register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 String Username = username1.getText().toString();
                 String Telephone = tel1.getText().toString();
                 String Email = email1.getText().toString();
@@ -56,26 +59,8 @@ public class register extends AppCompatActivity {
                 String emailPattern1 = "^[a-zA-Z0-9]{1,20}@[a-z0-9]{1,20}.[a-zA-Z]{2,3}$";
                 String emailPattern2 = "^[a-zA-Z0-9]{1,20}@[a-z0-9]{1,20}.[a-z0-9]{1,20}.[a-zA-Z]{2,3}$";
 
-                    if (Email.matches(emailPattern1)){
-                        Toast.makeText(register.this,"Valid Mail",Toast.LENGTH_SHORT).show();
-                    }
-                    else if (Email.matches(emailPattern2)){
-                        Toast.makeText(register.this,"Valid Mail",Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(register.this,"Invalid Mail",Toast.LENGTH_SHORT).show();
-                    }
 
-                //if (emailInput.isEmpty()) {
-                //    email1.setError("Field can't be empty");
-                //    return false;
-               // } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-                 //   email1.setError("Please enter a valid email address");
-                //    return false;
-               // } else {
-                //    email1.setError(null);
-                 //   return true;
-                //}
+
 
                 Intent intent = new Intent(getApplicationContext(), weldone.class);
 
@@ -84,34 +69,39 @@ public class register extends AppCompatActivity {
                 intent.putExtra("Email",Email);
                 intent.putExtra("Telephone",Telephone);
 
-                //intent.putExtra("Password",textPassword);
+                if (TextUtils.isEmpty(username1.getText().toString())){
+                    username1.setError("l'identifiant est important");
+                    return;
+                }
+                //private boolean validateEmailAdress (EditText email1) {
+                //    String emailInput =email1.getText().toString();
+                //    if (!emailInput.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email1).matches()){
+                //        Toast.makeText(register.this,"L'adresse mail est valide",Toast.LENGTH_SHORT).show();
+                //    }
+                //}
+
+
+
+                if (TextUtils.isEmpty(email1.getText().toString())) {
+                    email1.setError("l'email est important");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(tel1.getText().toString())) {
+                    tel1.setError("le numero de telephone est important");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password1.getText().toString())) {
+                    password1.setError("le mot de passe est important");
+                    return;
+                }
+                Toast.makeText(register.this,"Inscription reussie",Toast.LENGTH_SHORT).show();
+
                 startActivity(intent);
                 finish();
 
-
-
-
-                if (username1.getText().toString().equals("") && password1.getText().toString().equals("")) {
-                    Toast.makeText(register.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(register.this, "Login Failed!", Toast.LENGTH_SHORT).show();
-                }
             }
-            private boolean validateEmail() {
-                String emailInput = email1.getText().toString().trim();
-
-                if (emailInput.isEmpty()) {
-                    email1.setError("Field can't be empty");
-                    return false;
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-                    email1.setError("Please enter a valid email address");
-                    return false;
-                } else {
-                    email1.setError(null);
-                    return true;
-                }
-            }
-
         });
-    }
+    };
 }
